@@ -1,0 +1,2 @@
+đứng ở mục gốc nhập : npm install
+my sql chạy local bằng xampp
