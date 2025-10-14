@@ -1,0 +1,79 @@
+.homepage {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.banner {
+  text-align: center;
+  padding: 40px 0;
+  background-color: #e3f2fd;
+  border-radius: 10px;
+}
+
+.banner input {
+  margin-top: 15px;
+  width: 60%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+section {
+  margin-top: 40px;
+}
+
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 50%;
+  height: 120px;
+  object-fit: cover;
+}
+
+.card button {
+  margin-top: 10px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+/* HomePage.css */
+
+.specialization-card {
+    /* Thiết lập cho thẻ Link (card) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none; /* Bỏ gạch chân Link */
+    color: inherit; /* Giữ màu chữ mặc định */
+    /* ... các style khác của card ... */
+}
+
+.specialization-card .card-image {
+    width: 100%; /* Hoặc một kích thước cố định, ví dụ 100px */
+    height: 150px; /* Chiều cao cố định */
+    object-fit: cover; /* Đảm bảo ảnh vừa khung mà không bị méo */
+    border-radius: 8px 8px 0 0; /* Bo góc trên */
+}
+
+.specialization-card .card-content {
+    padding: 15px;
+    text-align: center;
+}

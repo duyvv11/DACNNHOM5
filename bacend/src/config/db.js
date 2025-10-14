@@ -13,7 +13,7 @@ const sequelize = new Sequelize('databenhvien','root',null,
 
 sequelize
   .authenticate()
-  .then(() => console.log('✅ Kết nối MySQL thành công'))
-  .catch((err) => console.error('❌ Lỗi kết nối MySQL:', err));
+  .then(() => console.log('conected'))
+  .catch((err) => console.error('error conect data', err));
 
 module.exports = sequelize;

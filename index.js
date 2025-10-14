@@ -1,7 +1,15 @@
 const express = require('express');
 const { sequelize } = require('./bacend/src/models/index.js');
 const cors = require('cors');
-// require('dotenv').config();
+require('dotenv').config();
+const userRoutes = require('./bacend/src/routers/userRoutes');
+const doctorRoutes = require('./bacend/src/routers/doctorRoutes');
+const appointmentRoutes = require('./bacend/src/routers/appointmentRoutes');
+const hospitalRoutes = require('./bacend/src/routers/hospitalRoutes');
+const specializationRoutes = require('./bacend/src/routers/specializationRoutes');
+const verificationRoutes = require('./bacend/src/routers/verificationRoutes');
+const newsRoutes = require('./bacend/src/routers/newsRoutes');
+
 
 const app = express();
 
@@ -13,14 +21,24 @@ sequelize.sync({ alter: true }).then(() => {
 
 app.use(cors(
     {
-        origin: process.env.CLIENT_URL,
-        methods:['GET','POST','PUT','DELETE']
+        origin: 'http://localhost:3000',
+        methods:['GET','POST','PUT','DELETE'],
+        allowedHeaders: ['Content-Type']
     }
 ))
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('');
 });
+// console.log('userRoutes :',userRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/doctors', doctorRoutes);
+app.use('/api/appointments', appointmentRoutes);
+app.use('/api/hospitals', hospitalRoutes);
+app.use('/api/specializations', specializationRoutes);
+app.use('/api/verifications', verificationRoutes);
+app.use('/api/news', newsRoutes);
+
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
