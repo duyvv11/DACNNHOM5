@@ -1,6 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import {useState} from "react";
+import axios from 'axios';
 // chuyển đổi giờ utc
 const formatDateTimeLocal = (utcDateString) => {
   if (!utcDateString) return "N/A";
@@ -13,24 +14,20 @@ const formatDateTimeLocal = (utcDateString) => {
     minute: '2-digit'
   });
 };
-const handleCancel=async (task,id)=>{
-  const kq = axios.put(`http://localhost:5000/api/appointments/${id}`);
+const handlestatusChange=async (task,id)=>{
+  const kq = axios.put(`http://localhost:5000/api/appointments/${id}`,
+    {
+      status:task
+    }
+  );
   if(task ==="CANCLELLED" && kq){
     toast("Hủy lịch khám thành công");
   }
-  else if (task ==="CONFIRMED" && kq){
-    toast("Đã xác nhận lịch khám");
-  }
-  else if (task ==="DONE" && kq){
-    toast("Khám xong");
-  }
-  else toast("lỗi");
 };
-const [iscancel,setCancel] = useState(false);
-const [isConfirmed,setComfirm] = useState(false);
-const [done,setDone] = useState(false);
+
 
 const  AppointmentList=({ appointments, role })=> {
+  const [iscancel, setCancel] = useState(false);
   if (appointments.length === 0) {
     return <div className="empty-state">Không có lịch khám nào được tìm thấy.</div>;
   }
@@ -44,23 +41,12 @@ const  AppointmentList=({ appointments, role })=> {
           <p>
             Thời gian: {formatDateTimeLocal(appt.startDateTime)}
           </p>
-          <p>
-            {role === 'DOCTOR'
-              ? `Bệnh nhân: ${appt.User?.name || ''}`
-              : `Bác sĩ: ${appt.Doctor?.User?.name || ''}`
-            }
-          </p>
+          <p>`Bệnh nhân: ${appt.User?.name || ''}`</p>
           <span className={`status-badge status-${appt.status.toLowerCase()}`}>
             Trạng thái: {appt.status}
           </span>
           <button className="view-btn">Xem Chi tiết</button>
-          <button className="view-btn" type="submit" onSubmit={handleCancel}>Hủy</button>
-          <>
-            {role === 'DOCTOR' &&(
-                <button>Nhận Lịch Hẹn</button>
-
-            )}
-          </>
+          <button className="view-btn" type="submit" onSubmit={()=>{handlestatusChange()}}>Hủy</button>
           
         </div>
       ))}
