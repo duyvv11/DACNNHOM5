@@ -1,13 +1,12 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-const sequelize = new Sequelize('databenhvien','root',null,
- 
+const sequelize = new Sequelize('databenhvien2', 'root', null,
   {
     host: "localhost",
-    dialect: "mysql", 
-    logging: false, 
-    
+    dialect: "mysql",
+    logging: false,
+
   }
 );
 

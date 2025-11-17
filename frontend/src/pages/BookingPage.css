@@ -1,0 +1,38 @@
+/* Sử dụng Flexbox để chia thành 2 cột */
+.booking-card.two-column-layout {
+    display: flex;
+    gap: 30px; /* Khoảng cách giữa 2 cột */
+    padding: 20px;
+    border: 1px solid #ccc; /* Thêm đường viền nếu cần */
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-info-column, .booking-form-column {
+    flex: 1; /* Mỗi cột chiếm 50% */
+    padding: 15px;
+}
+
+.doctor-info-column {
+    border-right: 1px solid #eee; /* Đường chia giữa hai cột */
+}
+
+.doctor-profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* Hình tròn */
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+/* Đảm bảo bố cục gọn gàng trên màn hình nhỏ (tùy chọn) */
+@media (max-width: 768px) {
+    .booking-card.two-column-layout {
+        flex-direction: column; /* Chuyển thành 1 cột */
+    }
+    .doctor-info-column {
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+}

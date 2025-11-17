@@ -1,79 +1,141 @@
-.homepage {
-  font-family: Arial, sans-serif;
-  padding: 20px;
+/* --- Bố cục chung --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.banner {
-  text-align: center;
-  padding: 40px 0;
-  background-color: #e3f2fd;
-  border-radius: 10px;
+.section-spacing {
+    margin-bottom: 40px;
 }
 
-.banner input {
-  margin-top: 15px;
-  width: 60%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+h2 {
+    font-size: 1.8rem;
+    color: #007bff; /* Màu xanh chủ đạo */
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
-section {
-  margin-top: 40px;
+/* --- Bố cục Lưới (Grid) cho các thẻ --- */
+.card-grid {
+    display: grid;
+    /* Hiển thị 3 cột trên màn hình lớn, tự động điều chỉnh */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
 }
 
-.card-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+/* Bố cục cho bác sĩ có thể hẹp hơn nếu cần */
+.doctor-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
+/* --- Thiết kế Thẻ (Card) --- */
 .card {
-  border: 1px solid #eee;
-  border-radius: 10px;
-  padding: 15px;
-  margin: 10px;
-  width: 220px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.card img {
-  width: 100%;
-  border-radius: 50%;
-  height: 120px;
-  object-fit: cover;
-}
-
-.card button {
-  margin-top: 10px;
-  background-color: #1976d2;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-/* HomePage.css */
-
-.specialization-card {
-    /* Thiết lập cho thẻ Link (card) */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-decoration: none; /* Bỏ gạch chân Link */
-    color: inherit; /* Giữ màu chữ mặc định */
-    /* ... các style khác của card ... */
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    text-decoration: none; /* Loại bỏ gạch chân của Link */
+    color: #333;
+    transition: transform 0.3s, box-shadow 0.3s;
+    min-height: 100%; /* Giúp các thẻ trong lưới có chiều cao bằng nhau */
 }
 
-.specialization-card .card-image {
-    width: 100%; /* Hoặc một kích thước cố định, ví dụ 100px */
-    height: 150px; /* Chiều cao cố định */
-    object-fit: cover; /* Đảm bảo ảnh vừa khung mà không bị méo */
-    border-radius: 8px 8px 0 0; /* Bo góc trên */
+/* Hiệu ứng nhấc lên khi hover */
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-.specialization-card .card-content {
+.card-image {
+    width: 100%;
+    /* Đảm bảo ảnh chuyên khoa và phòng khám chiếm hết chiều rộng */
+    height: 180px; 
+    object-fit: cover;
+}
+
+.doctor-image {
+    /* Tạo ảnh tròn cho bác sĩ */
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 20px auto 10px auto;
+    border: 3px solid #007bff;
+    object-fit: cover;
+}
+
+.card-content {
     padding: 15px;
+    flex-grow: 1; /* Đảm bảo nội dung chiếm không gian còn lại */
+}
+
+/* --- Thiết kế cho Card Bác sĩ --- */
+.doctor-card {
+    align-items: center; /* Căn giữa ảnh và nội dung */
     text-align: center;
+}
+
+.doctor-link {
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+}
+
+.doctor-name {
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-top: 5px;
+}
+
+.specialization-name {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+/* --- Thiết kế nút --- */
+.button {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 10px 15px 15px; /* Margin dưới thẻ */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.primary-button {
+    background-color: #007bff;
+    color: white;
+    width: calc(100% - 30px); /* Chiếm gần hết chiều rộng thẻ */
+}
+
+.primary-button:hover {
+    background-color: #0056b3;
+}
+
+.secondary-button {
+    background-color: #0056b3;
+    color: white;
+}
+
+.secondary-button:hover {
+    background-color: #5a6268;
+}
+
+/* --- Responsive (cho màn hình nhỏ) --- */
+@media (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .card-grid {
+        grid-template-columns: 1fr; /* 1 cột trên điện thoại */
+    }
 }

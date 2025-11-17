@@ -9,13 +9,13 @@ const hospitalRoutes = require('./bacend/src/routers/hospitalRoutes');
 const specializationRoutes = require('./bacend/src/routers/specializationRoutes');
 const verificationRoutes = require('./bacend/src/routers/verificationRoutes');
 const newsRoutes = require('./bacend/src/routers/newsRoutes');
+const doctorScheduleRoutes = require('./bacend/src/routers/doctorSchedule');
+// const authRoutes = require('./bacend/src/routers/auth')
 
 
 const app = express();
-
-
 app.use(express.json());
-sequelize.sync({ alter: true }).then(() => {
+sequelize.sync().then(() => {
   console.log('Database synced successfully');
 });
 
@@ -27,10 +27,7 @@ app.use(cors(
     }
 ))
 
-app.get('/', (req, res) => {
-  res.send('');
-});
-// console.log('userRoutes :',userRoutes);
+
 app.use('/api/users', userRoutes);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/appointments', appointmentRoutes);
@@ -38,7 +35,8 @@ app.use('/api/hospitals', hospitalRoutes);
 app.use('/api/specializations', specializationRoutes);
 app.use('/api/verifications', verificationRoutes);
 app.use('/api/news', newsRoutes);
-
+app.use('/api/doctor-schedules', doctorScheduleRoutes);
+// app.use('/api',authRoutes);
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

@@ -1,0 +1,77 @@
+/* --- CSS cho HospitalDetail Component --- */
+
+.HospitalDetail-Content {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.HospitalDetail-Content section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* --- Hình ảnh Bệnh viện --- */
+.img-hospital {
+    width: 100%; /* Chiếm toàn bộ chiều rộng của container */
+    max-height: 400px;
+    object-fit: cover; /* Đảm bảo hình ảnh không bị biến dạng */
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+}
+
+/* --- Tên Bệnh viện/Phòng khám --- */
+.HospitalName {
+    font-size: 2.2em;
+    color: #007bff; /* Màu thương hiệu */
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* --- Mô tả --- */
+.description {
+    font-size: 1.1em;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    padding: 10px 0;
+    background-color: #f9f9f9;
+    border-left: 4px solid #007bff;
+    padding-left: 15px;
+}
+
+/* --- Thông tin liên hệ --- */
+.HospitalDetail-Content p {
+    font-size: 1em;
+    color: #333;
+    margin: 5px 0;
+    padding-left: 10px;
+}
+
+/* Tạo hiệu ứng icon đơn giản */
+.HospitalDetail-Content p:before {
+    content: "•";
+    color: #28a745; /* Màu xanh lá cây cho điểm nhấn */
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+/* --- Tối ưu cho màn hình nhỏ (Mobile) --- */
+@media (max-width: 768px) {
+    .HospitalDetail-Content {
+        margin: 20px 10px;
+        padding: 15px;
+    }
+
+    .HospitalName {
+        font-size: 1.8em;
+    }
+}

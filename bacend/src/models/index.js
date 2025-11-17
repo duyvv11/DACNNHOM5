@@ -34,8 +34,8 @@ db.Doctor.hasMany(db.Appointment, { foreignKey: "doctorId" });
 db.Appointment.belongsTo(db.Doctor, { foreignKey: "doctorId" });
 
 // Bệnh nhân - Lịch hẹn (1-n)
-db.User.hasMany(db.Appointment, { foreignKey: "userId" });
-db.Appointment.belongsTo(db.User, { foreignKey: "userId" });
+db.User.hasMany(db.Appointment, { foreignKey: "patientId" });
+db.Appointment.belongsTo(db.User, { foreignKey: "patientId" });
 
 // CSKH - Xác thực (1-n)
 db.User.hasMany(db.Verification, { foreignKey: "verifiedById" });
@@ -44,5 +44,7 @@ db.Verification.belongsTo(db.User, { foreignKey: "verifiedById", as: "verifier" 
 // Xác thực liên quan tới Bác sĩ hoặc Lịch hẹn
 db.Verification.belongsTo(db.Doctor, { foreignKey: "doctorId" });
 db.Verification.belongsTo(db.Appointment, { foreignKey: "appointmentId" });
-
+// Một User có thể là một Doctor, và một Doctor phải liên kết với một User
+db.User.hasOne(db.Doctor, { foreignKey: 'userId', onDelete: 'CASCADE' });
+db.Doctor.belongsTo(db.User, { foreignKey: 'userId' });
 module.exports = db;

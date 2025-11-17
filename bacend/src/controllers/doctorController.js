@@ -1,21 +1,120 @@
-const { Doctor, Hospital, Specialization } = require('../models');
+const { Doctor, Hospital, Specialization, User, DoctorSchedule } = require('../models');
 const bcrypt = require('bcryptjs');
+const specialization = require('../models/specialization');
+const hospital = require('../models/hospital');
 
 exports.getDoctors = async (req, res) => {
   try {
-    const docs = await Doctor.findAll({ include: [Hospital, Specialization] });
+    const docs = await Doctor.findAll({
+      attributes: ['id','userid','experience_years', 'profile_image'],
+      include: [{
+        model: Hospital,
+        attributes: ['name', 'address', 'phone']
+      }, {
+        model: Specialization,
+        attributes: ['name', 'description']
+      }, {
+        model: User,
+        attributes: ['name', 'email', 'phone', 'address']
+      }]
+    });
     res.json(docs);
   } catch (err) { res.status(500).json({ error: err.message }); }
 };
 
 exports.getDoctorById = async (req, res) => {
   try {
-    const doc = await Doctor.findByPk(req.params.id);
-    if (!doc) return res.status(404).json({ message: 'Không tìm thấy bác sĩ' });
-    res.json(doc);
+    const doctor = await Doctor.findOne({where:{ userId: req.params.id } ,
+      attributes: ['id','userid','experience_years','title','workplace','work_hours','profile_image'],
+      include: [{
+        model: Hospital,
+        attributes: ['name', 'address']
+      },
+      {
+        model: Specialization,
+        attributes: ['name']
+      },
+      {
+        model:User,
+        attributes:['name','age','gender','phone','email','address']
+      },
+      {
+        model:DoctorSchedule,
+        attributes:['dayOfWeek','startTime','endTime']
+      }
+      ]
+    });
+
+    if (!doctor) return res.status(404).json({ message: 'Không tìm thấy bác sĩ' });
+    res.json(doctor);
   } catch (err) { res.status(500).json({ error: err.message }); }
 };
 
+
+// lay bac si theo chuyen khoa 
+exports.getDoctorbySpecialization = async (req,res) =>{
+  try {
+    const id = req.params.id;
+    console.log("get bac si theo chuyen khoa",id);
+    const doctor = await Doctor.findAll({
+      where: { specializationId:id },
+      attributes: ['userid','experience_years', 'title', 'workplace', 'work_hours', 'profile_image'],
+      include: [{
+        model: Hospital,
+        attributes: ['name', 'address']
+      },
+      {
+        model: Specialization,
+        attributes: ['name' ,'id']
+      },
+      {
+        model: User,
+        attributes: ['name', 'age', 'gender', 'phone', 'email', 'address']
+      },
+      {
+        model: DoctorSchedule,
+        attributes: ['dayOfWeek', 'startTime', 'endTime']
+      }
+      ]
+    });
+
+    if (!doctor) return res.status(404).json({ message: 'Không tìm thấy bác sĩ' });
+    res.json(doctor);
+  } catch (err) { res.status(500).json({ error: err.message }); }
+};
+
+// lay bác sĩ theo bệnh viện
+// lay bac si theo chuyen khoa 
+exports.getDoctorbyHospital = async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log("get bac si theo benh vien", id);
+    const doctor = await Doctor.findAll({
+      where: { hospitalId: id },
+      attributes: ['userid', 'experience_years', 'title', 'workplace', 'work_hours', 'profile_image'],
+      include: [{
+        model: Hospital,
+        attributes: ['name', 'address']
+      },
+      {
+        model: Specialization,
+        attributes: ['name', 'id']
+      },
+      {
+        model: User,
+        attributes: ['name', 'age', 'gender', 'phone', 'email', 'address']
+      },
+      {
+        model: DoctorSchedule,
+        attributes: ['dayOfWeek', 'startTime', 'endTime']
+      }
+      ]
+    });
+
+    if (!doctor) return res.status(404).json({ message: 'Không tìm thấy bác sĩ' });
+    res.json(doctor);
+  } catch (err) { res.status(500).json({ error: err.message }); }
+};
 exports.createDoctor = async (req, res) => {
   try {
     const { password, ...rest } = req.body;

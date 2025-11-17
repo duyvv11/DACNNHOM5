@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"nodemon index.js\"  \"cd frontend && npm start\"",
-    "testscrip": "cd frontend && npm start"
+    "testscrip": "cd frontend && npm start",
+    "server": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,8 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
     "mysql2": "^3.15.1",
     "nodemon": "^3.1.10",
     "sequelize": "^6.37.7"

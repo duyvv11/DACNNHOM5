@@ -1,4 +1,5 @@
-const  Hospital = require('../models/hospital');
+const db = require('../models')
+const Hospital = db.Hospital;
 
 exports.getHospitals = async (req, res) => {
   try {
@@ -6,6 +7,17 @@ exports.getHospitals = async (req, res) => {
     res.json(data);
   } catch (err) { res.status(500).json({ error: err.message }); }
 };
+
+exports.getHospitalbyId = async (req,res) =>{
+  try {
+    const id = req.params.id;
+    const hospital = await Hospital.findByPk(id);
+    res.json(hospital);
+  } catch (error) {
+    res.status(500).json("lỗi server",error.message);
+    
+  }
+}
 
 exports.createHospital = async (req, res) => {
   try {

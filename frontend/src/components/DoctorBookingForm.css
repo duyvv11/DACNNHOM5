@@ -1,0 +1,92 @@
+.booking-container {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+}
+
+.doctor-left {
+  width: 40%;
+  background: #f8faff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 0 10px #ddd;
+  text-align:center;
+}
+
+.doctor-img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.booking-right {
+  width: 60%;
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 0 10px #ddd;
+}
+
+.day-list {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.day-btn {
+  min-width: 110px;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.day-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.time-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.time-btn {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #999;
+  cursor: pointer;
+}
+
+.time-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #10b981;
+}
+
+.confirm-btn {
+  margin-top: 40px;
+  padding: 18px 18px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  font-size: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.confirm-btn:hover{
+  background-color: rgb(9, 235, 39);
+}
+
+.confirm-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}

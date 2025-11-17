@@ -6,5 +6,5 @@ router.get('/', hospitalController.getHospitals);
 router.post('/', hospitalController.createHospital);
 router.put('/:id', hospitalController.updateHospital);
 router.delete('/:id', hospitalController.deleteHospital);
-
+router.get('/:id',hospitalController.getHospitalbyId);
 module.exports = router;

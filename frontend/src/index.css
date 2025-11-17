@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+:root{
+  --color1:#007bff;  /* màu chính màu button*/
+
+}
+.Button-Use{
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 10px 15px 15px; /* Margin dưới thẻ */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
