@@ -1,4 +1,4 @@
-const  {User}  = require('../models/');
+const  {User,Doctor}  = require('../models/');
 const bcrypt = require('bcryptjs');
 
 //admin
@@ -8,11 +8,10 @@ exports.getUsers = async (req, res) => {
     res.json(users);
   } catch (err) { res.status(500).json({ error: err.message }); }
 };
-
+//dang nhap
 exports.postLogin = async (req,res) =>{
   try {
     const {email,password} = req.body;
-    console.log(email,password);
     const user = await User.findOne({where:{email:email}});
     const checkpassowrd =await bcrypt.compare(password, user.password);
     if(!user || !checkpassowrd){
@@ -24,8 +23,7 @@ exports.postLogin = async (req,res) =>{
           email:user.email,
           role:user.role,
           id:user.id,
-          name:user.name
-
+          name:user.name,
         }
       });
     }
@@ -35,13 +33,15 @@ exports.postLogin = async (req,res) =>{
     
   }
 }
+
+// dang ky
 exports.postRegister = async (req,res)=>{
   try {
-    const {name,age,gender,email,phone,address,password} = req.body;
+    const {name,age,gender,email,phone,address,password ,role} = req.body;
     const checkuser = await User.findOne({where:{email:email}})
     if(checkuser) return res.json("tai khoan da ton tai");
     const hashpassword = await bcrypt.hash(password,10);
-    const user = await User.create({name,age,gender,email,phone,address,password:hashpassword});
+    const user = await User.create({name,age,gender,email,phone,address,password:hashpassword,role:role || "USER"});
     if(user){
       return res.status(200).json({msg:"tạo tài khoản thành công",data:user});
     }
@@ -71,26 +71,26 @@ exports.createUser = async (req, res) => {
   } catch (err) { res.status(400).json({ error: err.message }); }
 };
 
+// cap nhat
 exports.updateUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
     if (!user) return res.status(404).json({ message: 'Không tìm thấy user' });
 
-    // Danh sách các field được phép update
     const allowedFields = ['email', 'phone', 'address', 'password'];
     
-    // Lọc body để chỉ lấy field hợp lệ
+
     const updates = Object.fromEntries(
       Object.entries(req.body).filter(([key]) => allowedFields.includes(key))
     );
 
-    // Hash password nếu có
     if (updates.password) {
       updates.password = await bcrypt.hash(updates.password, 10);
     }
 
     await user.update(updates);
     res.json({
+        msg:"ok",
         email:user.email,
         phone:user.phone,
         adress:user.address,

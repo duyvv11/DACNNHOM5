@@ -24,7 +24,16 @@ exports.getScheduleById = async (req, res) => {
 // Lấy lịch theo bác sĩ
 exports.getSchedulesByDoctor = async (req, res) => {
   try {
-    const schedules = await DoctorSchedule.findAll({ where: { doctorId: req.params.doctorId } });
+    const schedules = await DoctorSchedule.findAll({
+      include:[
+        {
+          model:Doctor,
+          where:{
+            userId: req.params.doctorId
+          }
+        }
+      ]
+    });
     res.json(schedules);
   } catch (err) {
     res.status(500).json({ error: err.message });

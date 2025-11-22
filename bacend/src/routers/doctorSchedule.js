@@ -5,7 +5,7 @@ const doctorScheduleController = require('../controllers/doctorScheduleControlle
 
 router.get('/', doctorScheduleController.getAllSchedules);
 router.get('/:id', doctorScheduleController.getScheduleById);
-router.get('/doctor/:doctorId', doctorScheduleController.getSchedulesByDoctor);
+router.get('/schedulebydoctor/:doctorId', doctorScheduleController.getSchedulesByDoctor);
 router.post('/', doctorScheduleController.createSchedule);
 router.put('/:id', doctorScheduleController.updateSchedule);
 router.delete('/:id', doctorScheduleController.deleteSchedule);

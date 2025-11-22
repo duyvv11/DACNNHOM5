@@ -15,6 +15,12 @@ import "react-toastify/dist/ReactToastify.css";
 import DoctorListPage from './pages/DoctorListPage';
 import HospitalListPage from './pages/HostpitalListPage';
 import AppointmentPage from './pages/AppointmentPage';
+import DoctorPage from './pages/doctor/DoctorPage';
+import DoctorSchedulePage from './pages/doctor/DoctorSchedulePage';
+
+// admin 
+import AdminLayout from './pages/admin/AdminLayout';
+import UsersManagementPage from './pages/admin/UsersManagementPage/UsersManagementPage';
 
 function App() {
   return (
@@ -34,6 +40,14 @@ function App() {
             <Route path="/specializations" element={<SpecializationListPage />} />
             <Route path="/hospitals" element={<HospitalListPage />} />
             <Route path="/my-appointments" element={<AppointmentPage />} />
+            <Route path="/pagedoctor" element={<DoctorPage/>}/>
+            <Route path="/doctorschedulepage" element={<DoctorSchedulePage/>}/>
+
+            {/* admin */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="/admin/users" element={<UsersManagementPage/>}/>
+            
+            </Route>
 
           </Route>
         </Routes>

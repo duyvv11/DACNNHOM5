@@ -20,7 +20,7 @@ function SpecializationPage() {
 
     setLoading(true);
     setError(null);
-    // gọi api lấy chuyên khoa by id
+    // gọi api lấy chuyên khoa by id lấy bác sĩ theo chuyên khoa
     Promise.all([
       axios.get(`http://localhost:5000/api/specializations/${id}`),
       axios.get(`http://localhost:5000/api/doctors/doctorbyspecialization/${id}`)

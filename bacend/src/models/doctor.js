@@ -12,11 +12,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.ENUM("PENDING", "VERIFIED", "REJECTED"),
             defaultValue: "PENDING"
         },
-        // Khóa ngoại tự động được thiết lập thông qua associations
         userId: {
             type: DataTypes.INTEGER,
-            unique: true, // Thêm unique để đảm bảo mối quan hệ 1-1
-            allowNull: false // Bắt buộc phải liên kết với 1 User
+            unique: true, 
+            allowNull: false 
         },
         hospitalId: { type: DataTypes.INTEGER },
         specializationId: { type: DataTypes.INTEGER }

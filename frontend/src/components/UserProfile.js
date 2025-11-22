@@ -9,12 +9,15 @@ const UserProfile = () => {
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [statusMessage, setStatusMessage] = useState(null);
-  const [editData, setEditData] = useState({});
+  const [editData, setEditData] = useState({
+    email: '',
+    phone: '',
+    address: ''
+  });
 
-  // --- 1. HOOK TẢI DỮ LIỆU BAN ĐẦU (Không cần Token) ---
+  // --- 1. TẢI DỮ LIỆU BAN ĐẦU ---
   useEffect(() => {
     const fetchUserProfile = async () => {
-
       if (!id) {
         setStatusMessage({ type: 'error', message: 'Thiếu ID người dùng.' });
         setIsLoading(false);
@@ -23,26 +26,27 @@ const UserProfile = () => {
 
       try {
         const response = await axios.get(`http://localhost:5000/api/users/${id}`);
-
         const user = response.data;
 
         setUserData(user);
-        setEditData(user);
+        setEditData({
+          email: user.email || '',
+          phone: user.phone || '',
+          address: user.address || ''
+        });
         setIsLoading(false);
 
       } catch (err) {
-        const errorMessage = err.response?.data?.message || 'Không thể tải thông tin người dùng. Vui lòng kiểm tra API.';
+        const errorMessage = err.response?.data?.message || 'Không thể tải thông tin người dùng.';
         setStatusMessage({ type: 'error', message: errorMessage });
         setIsLoading(false);
       }
     };
 
     fetchUserProfile();
-
   }, [id]);
 
-  // --- 2. HÀM XỬ LÝ CHỈNH SỬA VÀ LƯU (Không cần Token) ---
-
+  // --- 2. XỬ LÝ CHỈNH SỬA ---
   const handleChange = (e) => {
     setEditData({
       ...editData,
@@ -51,14 +55,23 @@ const UserProfile = () => {
   };
 
   const handleEdit = () => {
-    setEditData(userData);
+    if (!userData) return;
+    setEditData({
+      email: userData.email || '',
+      phone: userData.phone || '',
+      address: userData.address || ''
+    });
     setIsEditing(true);
     setStatusMessage(null);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
-    setEditData(userData);
+    setEditData({
+      email: userData.email || '',
+      phone: userData.phone || '',
+      address: userData.address || ''
+    });
     setStatusMessage(null);
   };
 
@@ -66,16 +79,24 @@ const UserProfile = () => {
     e.preventDefault();
     setStatusMessage(null);
 
+    // --- Kiểm tra thay đổi ---
+    if (
+      editData.email === userData.email &&
+      editData.phone === userData.phone &&
+      editData.address === userData.address
+    ) {
+      setStatusMessage({ type: 'info', message: 'Không có thay đổi để lưu.' });
+      return;
+    }
 
     try {
-      // ✅ BỎ headers/Token khỏi yêu cầu PUT
       await axios.put(`http://localhost:5000/api/users/${id}`, {
         email: editData.email,
         phone: editData.phone,
-        address: editData.address,}
-      );
+        address: editData.address,
+      });
 
-      setUserData(editData);
+      setUserData({ ...userData, ...editData });
       setIsEditing(false);
       setStatusMessage({ type: 'success', message: 'Cập nhật thông tin thành công!' });
 
@@ -85,8 +106,7 @@ const UserProfile = () => {
     }
   };
 
-  // --- 3. LOGIC HIỂN THỊ ---
-
+  // --- 3. HIỂN THỊ ---
   if (isLoading) {
     return <div className="profile-container"><p>Đang tải thông tin...</p></div>;
   }
@@ -94,7 +114,6 @@ const UserProfile = () => {
   if (!userData) {
     return <div className="profile-container"><p className="status-message error">Không tìm thấy dữ liệu người dùng.</p></div>;
   }
-
 
   return (
     <div className="profile-container">
@@ -122,7 +141,7 @@ const UserProfile = () => {
               type="email"
               id="email"
               name="email"
-              value={editData.email || ''}
+              value={editData.email}
               onChange={handleChange}
               required
             />
@@ -138,7 +157,7 @@ const UserProfile = () => {
               type="text"
               id="phone"
               name="phone"
-              value={editData.phone || ''}
+              value={editData.phone}
               onChange={handleChange}
               required
             />
@@ -153,10 +172,10 @@ const UserProfile = () => {
             <textarea
               id="address"
               name="address"
-              value={editData.address || ''}
+              value={editData.address}
               onChange={handleChange}
               required
-            ></textarea>
+            />
           ) : (
             <p className="profile-value">{userData.address}</p>
           )}

@@ -84,7 +84,6 @@ exports.getDoctorbySpecialization = async (req,res) =>{
 };
 
 // lay bác sĩ theo bệnh viện
-// lay bac si theo chuyen khoa 
 exports.getDoctorbyHospital = async (req, res) => {
   try {
     const id = req.params.id;

@@ -2,6 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import {useState} from "react";
 import axios from 'axios';
+import "./AppointmentList.css";
 // chuyển đổi giờ utc
 const formatDateTimeLocal = (utcDateString) => {
   if (!utcDateString) return "N/A";
@@ -14,22 +15,25 @@ const formatDateTimeLocal = (utcDateString) => {
     minute: '2-digit'
   });
 };
-const handlestatusChange=async (task,id)=>{
-  const kq = axios.put(`http://localhost:5000/api/appointments/${id}`,
+const handlestatusChange = async (task, id, fetchAppointments)=>{
+  const reponse = await axios.put(`http://localhost:5000/api/appointments/${id}`,
     {
       status:task
     }
   );
-  if(task ==="CANCLELLED" && kq){
+  if (reponse){
     toast("Hủy lịch khám thành công");
+    if (fetchAppointments) {
+      fetchAppointments();
+    }
   }
 };
 
 
-const  AppointmentList=({ appointments, role })=> {
+const AppointmentList = ({ appointments, role, fetchAppointments })=> {
   const [iscancel, setCancel] = useState(false);
   if (appointments.length === 0) {
-    return <div className="empty-state">Không có lịch khám nào được tìm thấy.</div>;
+    return <div className="empty-state">Không có lịch khám nào </div>;
   }
 
   return (
@@ -41,12 +45,19 @@ const  AppointmentList=({ appointments, role })=> {
           <p>
             Thời gian: {formatDateTimeLocal(appt.startDateTime)}
           </p>
-          <p>`Bệnh nhân: ${appt.User?.name || ''}`</p>
+          <p>Bác sĩ: {appt.Doctor.User.name || ''}</p>
+          <p>Địa chỉ khám: {appt.Doctor.Hospital.name} - - {appt.Doctor.Hospital.address}</p>
           <span className={`status-badge status-${appt.status.toLowerCase()}`}>
             Trạng thái: {appt.status}
           </span>
           <button className="view-btn">Xem Chi tiết</button>
-          <button className="view-btn" type="submit" onSubmit={()=>{handlestatusChange()}}>Hủy</button>
+          <>
+          {appt.status === "CANCELLED" ?(<></>)
+              : (<button className = "view-btn" onClick = { () => { handlestatusChange("CANCELLED",appt.id, fetchAppointments)}}>Hủy</button>)
+
+          }
+          </>
+
           
         </div>
       ))}

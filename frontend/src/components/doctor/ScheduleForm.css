@@ -1,0 +1,60 @@
+
+
+.schedule-form {
+    margin-top: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-form table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.schedule-form th, .schedule-form td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.schedule-form th {
+    background-color: #f2f2ff;
+    font-weight: bold;
+    color: #333;
+}
+
+.schedule-form input[type="time"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100px;
+}
+
+.schedule-form input[type="checkbox"] {
+    transform: scale(1.3);
+}
+
+.schedule-form input:disabled {
+    background-color: #f7f7f7;
+    cursor: not-allowed;
+}
+
+.save-schedule-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-schedule-btn:hover {
+    background-color: #0056b3;
+}

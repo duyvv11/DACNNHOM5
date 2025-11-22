@@ -8,18 +8,23 @@ const checkLoginStatus = () => {
 const checkIsDoctor = () =>{
   return localStorage.getItem('role') === "DOCTOR" ;
 };
+const checkIsAdmin = () =>{
+  return localStorage.getItem('role') === "ADMIN";
+}
 
 function Header() {
   const id = localStorage.getItem('id');
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(checkLoginStatus());
   const [isDoctor,setIsDoctor] = useState(checkIsDoctor())
+  const [isAdmin,setIsAdmin] = useState(checkIsAdmin())
 
   // useEffect để lắng nghe sự thay đổi của localStorage
   useEffect(() => {
     const updateState = () => {
       setIsLoggedIn(checkLoginStatus());
       setIsDoctor(checkIsDoctor());
+      setIsAdmin(checkIsAdmin());
     };
 
     window.addEventListener("loginStatusChange", updateState);
@@ -29,21 +34,16 @@ function Header() {
     };
   }, []);
 
-  // Hàm xử lý Đăng xuất
   const handleLogout = (e) => {
     e.preventDefault(); 
 
-    // Xóa token hoặc thông tin đăng nhập khỏi localStorage
     localStorage.removeItem('id');
     localStorage.removeItem('role');
 
-    // Cập nhật trạng thái
     setIsLoggedIn(false);
     setIsDoctor(false)
     window.dispatchEvent(new Event("loginStatusChange"));
-    // Chuyển hướng về trang chủ hoặc trang đăng nhập
     navigate('/');
-    // Nếu muốn tải lại trang: window.location.reload();
   };
 
   return (
@@ -70,6 +70,9 @@ function Header() {
             <Link to="/my-appointments">Theo dõi lịch khám của tôi</Link>
             {isDoctor && (
               <Link to="/pagedoctor" >Trang của bác sĩ</Link>
+            )}
+            {isAdmin && (
+              <Link to="/admin" >Trang của Admin</Link>
             )}
             <Link to="#" onClick={handleLogout}>
               Đăng xuất

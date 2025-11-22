@@ -1,0 +1,248 @@
+/* Container chung */
+.appointment-list-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-list-container h3 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 25px;
+}
+
+/* Item lịch khám */
+.appointment-item {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.appointment-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.appointment-item p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+    flex: 1 1 200px; /* Cho phép các đoạn text co giãn */
+}
+
+/* Badge trạng thái */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Màu sắc theo trạng thái */
+.status-pending .status-badge {
+    background-color: #ffc107; /* Vàng */
+    color: #343a40;
+}
+
+.status-confirmed .status-badge {
+    background-color: #28a745; /* Xanh lá */
+    color: white;
+}
+
+.status-cancelled .status-badge {
+    background-color: #f00e0e; /* Đỏ */
+    color: white;
+}
+
+.status-done .status-badge {
+    background-color: #6c757d; /* Xám */
+    color: white;
+}
+
+/* Nút */
+.view-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+    background-color: #007bff;
+    color: white;
+    font-weight: 500;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.view-btn:hover {
+    opacity: 0.9;
+}
+
+/* Trạng thái rỗng */
+.empty-state {
+    text-align: center;
+    padding: 50px;
+    color: #6c757d;
+    font-size: 18px;
+    border: 1px dashed #ced4da;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 900px;
+}
+/* Nút Khám xong */
+.done-btn {
+  background-color: #28a745; /* xanh lá */
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.done-btn:hover {
+  background-color: #218838;
+}
+
+/* Nút Hủy */
+.cancel-btn {
+  background-color: #dc3545; /* đỏ */
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancel-btn:hover {
+  background-color: #c82333;
+}
+
+/* Nếu cancel-btn kết hợp với view-btn (ở trạng thái PENDING) */
+.cancel-btn.view-btn {
+  margin-left: 5px; /* tạo khoảng cách */
+}
+
+/* Đảm bảo các nút nằm cạnh nhau */
+.appointment-actions button {
+  margin-right: 8px;
+}
+/* Modal overlay - nền mờ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5); /* nền mờ */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Box modal chính */
+.modal-box {
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  width: 450px;
+  max-width: 90%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-box h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+/* Input và textarea */
+.modal-box input[type="text"],
+.modal-box textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 8px 0 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.modal-box textarea {
+  min-height: 80px;
+}
+
+/* Modal Actions - đảm bảo cả hai nút cùng chiều cao */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; /* khoảng cách giữa 2 nút */
+}
+
+/* Nút Lưu lại */
+.modal-actions .confirm-btn {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  height: 40px; /* đồng bộ chiều cao */
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Nút Hủy */
+.modal-actions .cancel-btn {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  height: 40px; /* đồng bộ chiều cao */
+  cursor: pointer;
+}
+
+/* Hover */
+.modal-actions .confirm-btn:hover {
+  background-color: #218838;
+}
+.modal-actions .cancel-btn:hover {
+  background-color: #c82333;
+}
+
+/* Animation fade in modal */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .modal-box {
+    width: 90%;
+    padding: 20px;
+  }
+}

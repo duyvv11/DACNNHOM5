@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import AppointmentList from "../components/AppointmentList";
 import axios from 'axios';
 
@@ -7,34 +7,34 @@ const AppointmentPage = () => {
   const id = localStorage.getItem("id");
 
   const [appointments, setAppointments] = useState([]);
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null);   
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchAppointments = useCallback(async () => {
+    if (!id) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await axios.get(`http://localhost:5000/api/appointments/user/${id}`);
+
+      setAppointments(response.data.appointments);
+
+    } catch (err) {
+      setError("Không thể tải lịch khám. Vui lòng thử lại.");
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
 
   useEffect(() => {
-    if (!id) {
+    if (id) {
+      fetchAppointments();
+    } else {
       setLoading(false);
-      return;
     }
-
-    const fetchAppointments = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await axios.get(`http://localhost:5000/api/appointments/user/${id}`);
-
-        setAppointments(response.data.appointments);
-
-      } catch (err) {
-        console.error("Lỗi khi tải lịch khám:", err);
-        setError("Không thể tải lịch khám. Vui lòng thử lại.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAppointments();
-  }, [id]); 
+  }, [id, fetchAppointments]);
 
   if (loading) {
     return <div style={{ padding: '20px', textAlign: 'center' }}>Đang tải danh sách lịch khám...</div>;
@@ -52,7 +52,8 @@ const AppointmentPage = () => {
     <div className="appointment-page-container">
       <AppointmentList
         appointments={appointments}
-        role={role} 
+        userRole={role}
+        fetchAppointments={fetchAppointments}
       />
     </div>
   );

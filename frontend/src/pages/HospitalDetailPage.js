@@ -11,7 +11,7 @@ const HospitalDetailPage = ()=>{
   useEffect(() => {
     Promise.all([
       axios.get(`http://localhost:5000/api/hospitals/${id}`),
-      axios.get(`http://localhost:5000/api/doctors/doctorbyspecialization/${id}`)
+      axios.get(`http://localhost:5000/api/doctors/doctorbyhospital/${id}`)
     ])
       .then(([resHp, resDoc]) => {
         setHospital(resHp.data);

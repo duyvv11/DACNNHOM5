@@ -29,6 +29,7 @@ const LoginForm = () => {
       );
 
       const data = response.data;
+      console.log(data);
 
       // Lưu thêm email, name nếu bạn muốn
       localStorage.setItem("email", data.user.email);
