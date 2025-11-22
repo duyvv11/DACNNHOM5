@@ -8,4 +8,5 @@ router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);
 router.post('/login',userController.postLogin);
 router.post('/register',userController.postRegister);
+router.put('/:id/upgradetodoctor',userController.putRoleDoctor);
 module.exports = router;

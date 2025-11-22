@@ -1,0 +1,178 @@
+/* Container bảng */
+.Table-AdminManagement {
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  overflow-x: auto; /* phòng trường hợp bảng rộng */
+}
+
+/* Bảng */
+.Table-AdminManagement table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  table-layout: fixed; /* giữ cột cố định */
+}
+
+/* Header & ô */
+.Table-AdminManagement th,
+.Table-AdminManagement td {
+  border: 1px solid #e0e0e0;
+  padding: 6px 8px;
+  text-align: left;
+  overflow: hidden;       /* ẩn tràn */
+  text-overflow: ellipsis; /* hiển thị ... nếu quá dài */
+  white-space: nowrap;     /* không xuống dòng */
+}
+
+/* Header */
+.Table-AdminManagement th {
+  background: #f5f5f5;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Dòng chẵn */
+.Table-AdminManagement tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* Input và select trong bảng */
+.Table-AdminManagement input,
+.Table-AdminManagement select {
+  width: 100%;             /* chiếm full cột */
+  max-width: 140px;        /* giới hạn tối đa */
+  box-sizing: border-box;  /* padding + border không làm tràn */
+  padding: 4px 6px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button */
+.Table-AdminManagement button {
+  padding: 4px 8px;
+  margin: 2px;
+  font-size: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Button sửa */
+.Table-AdminManagement .btn-edit {
+  background: #2b7de9;
+  color: white;
+}
+
+/* Button xóa */
+.Table-AdminManagement .btn-delete {
+  background: #e63946;
+  color: white;
+}
+
+/* Hình ảnh giấy phép */
+.image-hn {
+  height: 80px;
+  width: 120px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Hình ảnh profile bác sĩ */
+.image-dt {
+  height: 80px;
+  width: 120px;
+  object-fit:contain;
+  border-radius: 5px;
+}
+
+/* Responsive: scroll ngang nếu màn hình bé */
+@media screen and (max-width: 1200px) {
+  .Table-AdminManagement {
+    overflow-x: auto;
+  }
+}
+/* Modal overlay - nền mờ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* ưu tiên hiển thị trên các phần tử khác */
+}
+
+/* Modal container */
+.modal {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px; /* chiều rộng cố định */
+  max-width: 90%; /* responsive khi màn hình bé */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  overflow-y: auto; /* scroll nếu nội dung nhiều */
+  max-height: 90vh;
+}
+
+/* Modal header */
+.modal h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 18px;
+  text-align: center;
+}
+
+/* Form label */
+.modal label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Modal input */
+.modal input {
+  width: 100%;
+  padding: 6px 8px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Modal button container */
+.modal button {
+  padding: 6px 12px;
+  font-size: 13px;
+  margin-right: 6px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Nút tạo bác sĩ */
+.modal button.create-doctor {
+  background-color: #2b7de9;
+  color: #fff;
+}
+
+/* Nút hủy */
+.modal button.cancel {
+  background-color: #e63946;
+  color: #fff;
+}
+
+/* Responsive modal */
+@media screen and (max-width: 500px) {
+  .modal {
+    width: 95%;
+    padding: 15px;
+  }
+}

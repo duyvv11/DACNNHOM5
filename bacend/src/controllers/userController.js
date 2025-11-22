@@ -71,13 +71,13 @@ exports.createUser = async (req, res) => {
   } catch (err) { res.status(400).json({ error: err.message }); }
 };
 
-// cap nhat
+// cap nhat thong tin cho user benh nhan
 exports.updateUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
     if (!user) return res.status(404).json({ message: 'Không tìm thấy user' });
 
-    const allowedFields = ['email', 'phone', 'address', 'password'];
+    const allowedFields = ['phone', 'address', 'password'];
     
 
     const updates = Object.fromEntries(
@@ -100,6 +100,29 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+
+// Cấp role DOCTOR 
+exports.putRoleDoctor = async (req, res) => {
+  const userId = req.params.id;
+
+  // Cập nhật role trong bảng User
+  await User.update({ role: "DOCTOR" }, { where: { id: userId } });
+
+  // Tạo Doctor record nếu chưa có
+  const existingDoctor = await Doctor.findOne({ where: { userId } });
+  if (!existingDoctor) {
+    await Doctor.create({
+      userId,
+      experience_years: 0,
+      title: "",
+      workplace: "",
+      work_hours: "",
+      status: "PENDING"
+    });
+  }
+
+  res.json({ message: "User upgraded to doctor" });
+};
 
 exports.deleteUser = async (req, res) => {
   try {

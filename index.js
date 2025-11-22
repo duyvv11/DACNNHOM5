@@ -10,12 +10,13 @@ const specializationRoutes = require('./bacend/src/routers/specializationRoutes'
 const verificationRoutes = require('./bacend/src/routers/verificationRoutes');
 const newsRoutes = require('./bacend/src/routers/newsRoutes');
 const doctorScheduleRoutes = require('./bacend/src/routers/doctorSchedule');
+const aiRoutes = require('./bacend/src/routers/aiRoutes')
 // const authRoutes = require('./bacend/src/routers/auth')
 
 
 const app = express();
 app.use(express.json());
-sequelize.sync().then(() => {
+sequelize.sync({alter:true}).then(() => {
   console.log('Database synced successfully');
 });
 
@@ -36,6 +37,7 @@ app.use('/api/specializations', specializationRoutes);
 app.use('/api/verifications', verificationRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/doctor-schedules', doctorScheduleRoutes);
+app.use('/api/ai',aiRoutes);
 // app.use('/api',authRoutes);
 const port = process.env.PORT;
 app.listen(port, () => {
