@@ -7,6 +7,7 @@ router.get('/:id', doctorController.getDoctorById);
 router.post('/', doctorController.createDoctor);
 router.put('/:id', doctorController.updateDoctor);
 router.delete('/:id', doctorController.deleteDoctor);
-router.get('/doctorbyspecialization/:id', doctorController.getDoctorbySpecialization);
+router.get('/doctorbyspe/dtc', doctorController.getDoctorbySpecialization);
+router.get('/doctorbyspecialty/:id', doctorController.getDoctorbySpecializationById);
 router.get('/doctorbyhospital/:id',doctorController.getDoctorbyHospital);
 module.exports = router;

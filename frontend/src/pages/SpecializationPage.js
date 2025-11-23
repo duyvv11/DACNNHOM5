@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import SpecializationDetail from '../components/SpecializationDetail'; // Import component con
 import DoctorList from "../components/DoctorList";
-import SpecializationList from "../components/SpecializationList";
 
 function SpecializationPage() {
   const { id } = useParams(); 
@@ -23,7 +22,7 @@ function SpecializationPage() {
     // gọi api lấy chuyên khoa by id lấy bác sĩ theo chuyên khoa
     Promise.all([
       axios.get(`http://localhost:5000/api/specializations/${id}`),
-      axios.get(`http://localhost:5000/api/doctors/doctorbyspecialization/${id}`)
+      axios.get(`http://localhost:5000/api/doctors/doctorbyspecialty/${id}`)
     ]).then(([ressp,resdc]) =>{
       const datasp = ressp.data
       setSpecialization(datasp.data);

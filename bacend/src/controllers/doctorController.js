@@ -2,7 +2,7 @@ const { Doctor, Hospital, Specialization, User, DoctorSchedule } = require('../m
 const bcrypt = require('bcryptjs');
 const specialization = require('../models/specialization');
 const hospital = require('../models/hospital');
-
+const sequelize = require('../config/db');
 // lay ds bac si
 exports.getDoctors = async (req, res) => {
   try {
@@ -52,83 +52,95 @@ exports.getDoctorById = async (req, res) => {
 };
 
 
-// // lay bac si theo chuyen khoa 
-// exports.getDoctorbySpecialization = async (req,res) =>{
-//   try {
-//     const id = req.params.id;
-//     console.log("get bac si theo chuyen khoa",id);
-//     const doctor = await Doctor.findAll({
-//       where: { specializationId:id },
-//       attributes: ['userid','experience_years', 'title', 'workplace', 'work_hours', 'profile_image'],
-//       include: [{
-//         model: Hospital,
-//         attributes: ['name', 'address']
-//       },
-//       {
-//         model: Specialization,
-//         attributes: ['name' ,'id']
-//       },
-//       {
-//         model: User,
-//         attributes: ['name', 'age', 'gender', 'phone', 'email', 'address']
-//       },
-//       {
-//         model: DoctorSchedule,
-//         attributes: ['dayOfWeek', 'startTime', 'endTime']
-//       }
-//       ]
-//     });
-
-//     if (!doctor) return res.status(404).json({ message: 'Không tìm thấy bác sĩ' });
-//     res.json(doctor);
-//   } catch (err) { res.status(500).json({ error: err.message }); }
-// };
-
-// Thay đổi logic để tìm specializationId từ tên chuyên khoa
-exports.getDoctorbySpecialization = async (req, res) => {
+// lay bac si theo chuyen khoa bằng id
+exports.getDoctorbySpecializationById = async (req,res) =>{
   try {
-    // Lấy tên chuyên khoa từ query string (ví dụ: ?specialty=Khoa%20nhi)
-    const specialtyName = req.query.specialty;
-
-    if (!specialtyName) {
-      return res.status(400).json({ message: 'Vui lòng cung cấp tên chuyên khoa.' });
-    }
-
-    // --- BƯỚC QUAN TRỌNG: TÌM ID DỰA TRÊN TÊN CHUYÊN KHOA ---
-    const specialization = await Specialization.findOne({
-      where: {
-        // Sử dụng toán tử iLike (PostgreSQL) hoặc Collate (MySQL) cho tìm kiếm không phân biệt chữ hoa/thường 
-        // hoặc đơn giản là tìm kiếm chính xác (tùy vào cấu hình DB của bạn)
-        name: specialtyName
-      },
-      attributes: ['id'] // Chỉ cần lấy ID
-    });
-
-    if (!specialization) {
-      // Trường hợp AI trả về tên không khớp với database
-      return res.status(404).json({ message: `Không tìm thấy chuyên khoa: ${specialtyName}` });
-    }
-
-    // Lấy ID chuyên khoa
-    const specializationId = specialization.id;
-    console.log("Tìm bác sĩ theo ID chuyên khoa:", specializationId);
-
-    // --- BƯỚC 2: TRUY VẤN DANH SÁCH BÁC SĨ BẰNG ID ---
+    const id = req.params.id;
+    console.log("get bac si theo chuyen khoa",id);
     const doctor = await Doctor.findAll({
-      where: { specializationId: specializationId }, // Sử dụng ID đã tìm được
-      attributes: ['userId', 'experience_years', 'title', 'workplace', 'work_hours', 'profile_image'],
-      include: [
-        // ... (giữ nguyên phần include: Hospital, Specialization, User, DoctorSchedule)
-        { model: Hospital, attributes: ['name', 'address'] },
-        { model: Specialization, attributes: ['name', 'id'] },
-        { model: User, attributes: ['name', 'age', 'gender', 'phone', 'email', 'address'] },
-        { model: DoctorSchedule, attributes: ['dayOfWeek', 'startTime', 'endTime'] }
+      where: { specializationId:id },
+      attributes: ['userid','experience_years', 'title', 'workplace', 'work_hours', 'profile_image'],
+      include: [{
+        model: Hospital,
+        attributes: ['name', 'address']
+      },
+      {
+        model: Specialization,
+        attributes: ['name' ,'id']
+      },
+      {
+        model: User,
+        attributes: ['name', 'age', 'gender', 'phone', 'email', 'address']
+      },
+      {
+        model: DoctorSchedule,
+        attributes: ['dayOfWeek', 'startTime', 'endTime']
+      }
       ]
     });
 
-    if (!doctor || doctor.length === 0) return res.status(404).json({ message: 'Không tìm thấy bác sĩ nào trong chuyên khoa này' });
+    if (!doctor) return res.status(404).json({ message: 'Không tìm thấy bác sĩ' });
     res.json(doctor);
   } catch (err) { res.status(500).json({ error: err.message }); }
+};
+// lấy bác sic theo chuyen khoa bang name
+exports.getDoctorbySpecialization = async (req, res) => {
+  console.log("nhận rq")
+  try {
+    let specialtyName = req.query.specialty;
+    console.log(specialtyName);
+
+    if (!specialtyName) {
+      return res.status(400).json({ message: "Tên chuyên khoa không được để trống" });
+    }
+
+    // Chuẩn hóa tên chuyên khoa
+    specialtyName = specialtyName.trim().toLowerCase();
+
+    // tìm chuyên khoa trong data kho pb hoa
+    const specialization = await Specialization.findOne({
+      where: sequelize.where(
+        sequelize.fn("LOWER", sequelize.col("name")),
+        specialtyName
+      ),
+      attributes: ["id"]
+    });
+
+    if (!specialization) {
+      return res.status(404).json({
+        message: `Không tìm thấy chuyên khoa tương ứng: ${specialtyName}`
+      });
+    }
+
+    const specializationId = specialization.id;
+
+    const doctor = await Doctor.findAll({
+      where: { specializationId },
+      attributes: [
+        "id",
+        "userId",
+        "experience_years",
+        "title",
+        "workplace",
+        "work_hours",
+        "profile_image"
+      ],
+      include: [
+        { model: Hospital, attributes: ["name", "address"] },
+        { model: Specialization, attributes: ["name", "id"] },
+        { model: User, attributes: ["name", "age", "gender", "phone", "email", "address"] },
+        { model: DoctorSchedule, attributes: ["dayOfWeek", "startTime", "endTime"] }
+      ]
+    });
+
+    if (!doctor.length) {
+      return res.status(404).json({ message: "Không có bác sĩ trong chuyên khoa này" });
+    }
+
+    res.json(doctor);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 // lay bác sĩ theo bệnh viện

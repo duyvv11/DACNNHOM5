@@ -16,16 +16,16 @@ const aiRoutes = require('./bacend/src/routers/aiRoutes')
 
 const app = express();
 app.use(express.json());
-sequelize.sync({alter:true}).then(() => {
+sequelize.sync().then(() => {
   console.log('Database synced successfully');
 });
 
 app.use(cors(
-    {
-        origin: 'http://localhost:3000',
-        methods:['GET','POST','PUT','DELETE'],
-        allowedHeaders: ['Content-Type']
-    }
+  {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type']
+  }
 ))
 
 
@@ -37,7 +37,7 @@ app.use('/api/specializations', specializationRoutes);
 app.use('/api/verifications', verificationRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/doctor-schedules', doctorScheduleRoutes);
-app.use('/api/ai',aiRoutes);
+app.use('/api/ai', aiRoutes);
 // app.use('/api',authRoutes);
 const port = process.env.PORT;
 app.listen(port, () => {

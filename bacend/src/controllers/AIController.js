@@ -12,16 +12,26 @@ exports.diagnose = async (req, res) => {
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
+      response_format: { type: "json_object" },
       messages: [
         {
           role: "system",
-          content: `Bạn là trợ lý y tế. Nhiệm vụ:
-                1. Phân tích triệu chứng.
-                2. CHỌN DUY NHẤT 1 chuyên khoa phù hợp từ danh sách sau: [Khoa nhi, Khoa tổng quát, Khoa tim mạch, Da liễu, Răng Hàm Mặt,...].
-                3. TRẢ VỀ JSON hợp lệ: { "specialty":"<TÊN CHUYÊN KHOA CHÍNH XÁC>", "reason":"", "advice":"" }`
+          content: `
+        Bạn là trợ lý y tế. Chỉ trả về JSON hợp lệ dạng:
+        {
+          "specialty":"<TÊN CHUYÊN KHOA>",
+          "reason":"<LÝ DO>",
+          "advice":"<LỜI KHUYÊN>"
+        }
+
+        - Luôn chọn DUY NHẤT 1 chuyên khoa từ danh sách:
+        [Khoa Nhi, Khoa Tổng Quát, Khoa Tim Mạch, Khoa Thần Kinh, Da Liễu, Tai Mũi Họng, Răng Hàm Mặt, Cơ Xương Khớp, Tiêu Hóa].
+
+        - Không được trả thêm chữ hoặc câu bên ngoài JSON.
+      `
         },
         { role: "user", content: message }
-      ],
+      ]
     });
 
     const raw = completion.choices[0].message.content.trim();

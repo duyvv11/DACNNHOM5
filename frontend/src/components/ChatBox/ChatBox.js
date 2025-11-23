@@ -9,23 +9,23 @@ const ChatBox = () => {
 
   const sendMessage = async (text) => {
     if (!text.trim()) return;
-    // Hiển thị tin nhắn user ngay lập tức
+    // hiện tin nhắn của user
     setMessages(prev => [...prev, { role: "user", text }]);
     setLoading(true);
 
     try {
-      // 1. Gửi triệu chứng cho AI
+      // gửi mess cho ai
       const aiRes = await fetch("http://localhost:5000/api/ai/diagnose", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text })
       });
-
+      // dữ liệu trả về
       const aiData = await aiRes.json();
-
+      console.log("---",aiData);
       // 2. Lấy bác sĩ theo chuyên khoa
       const doctorRes = await fetch(
-        `http://localhost:5000/api/doctorbyspecialization?specialty=${aiData.specialty}`
+        `http://localhost:5000/api/doctors/doctorbyspe/dtc?specialty=${aiData.specialty}`
       );
       const doctors = await doctorRes.json();
 
@@ -67,7 +67,7 @@ const ChatBox = () => {
                     <>
                       <p><b>Bác sĩ phù hợp:</b></p>
                       {msg.reply.doctors.map(doc => (
-                        <div key={doc._id} className="doctor-item">
+                        <div key={doc.id} className="doctor-item">
                           <p>{doc.User.name} – {doc.Specialization.name}</p>
                           <button onClick={() => window.location.href = `/booking/${doc.userId}`}>Đặt lịch</button>
                         </div>
