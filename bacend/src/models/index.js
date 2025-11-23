@@ -11,7 +11,6 @@ db.Doctor = require("./doctor")(sequelize, DataTypes);
 db.Hospital = require("./hospital")(sequelize, DataTypes);
 db.Specialization = require("./specialization")(sequelize, DataTypes);
 db.Appointment = require("./appointment")(sequelize, DataTypes);
-db.Verification = require("./verification")(sequelize, DataTypes);
 db.News = require("./news")(sequelize, DataTypes);
 db.DoctorSchedule = require("./DoctorSchedule")(sequelize, DataTypes);
 
@@ -37,13 +36,6 @@ db.Appointment.belongsTo(db.Doctor, { foreignKey: "doctorId" });
 db.User.hasMany(db.Appointment, { foreignKey: "patientId" });
 db.Appointment.belongsTo(db.User, { foreignKey: "patientId" });
 
-// CSKH - Xác thực (1-n)
-db.User.hasMany(db.Verification, { foreignKey: "verifiedById" });
-db.Verification.belongsTo(db.User, { foreignKey: "verifiedById", as: "verifier" });
-
-// Xác thực liên quan tới Bác sĩ hoặc Lịch hẹn
-db.Verification.belongsTo(db.Doctor, { foreignKey: "doctorId" });
-db.Verification.belongsTo(db.Appointment, { foreignKey: "appointmentId" });
 // Một User có thể là một Doctor, và một Doctor phải liên kết với một User
 db.User.hasOne(db.Doctor, { foreignKey: 'userId', onDelete: 'CASCADE' });
 db.Doctor.belongsTo(db.User, { foreignKey: 'userId' });

@@ -17,6 +17,7 @@ import HospitalListPage from './pages/HostpitalListPage';
 import AppointmentPage from './pages/AppointmentPage';
 import DoctorPage from './pages/doctor/DoctorPage';
 import DoctorSchedulePage from './pages/doctor/DoctorSchedulePage';
+import NewsPage from './pages/NewsPage';
 import { AdminDataProvider } from './pages/admin/Context/AdminDataContext';
 // admin 
 import AdminLayout from './pages/admin/AdminLayout';
@@ -50,6 +51,7 @@ function App() {
             <Route path="/my-appointments" element={<AppointmentPage />} />
             <Route path="/pagedoctor" element={<DoctorPage />} />
             <Route path="/doctorschedulepage" element={<DoctorSchedulePage />} />
+            <Route path ="/news" element={<NewsPage/>}/>
 
             {/* admin routes */}
             <Route

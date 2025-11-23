@@ -6,8 +6,8 @@ import "./HostpitalDetailPage.css";
 import DoctorList from "../components/DoctorList";
 const HospitalDetailPage = ()=>{
   const {id} = useParams()
-  const [hospital,setHospital] = useState("");
-  const [doctors,setDoctor] = useState("");
+  const [hospital,setHospital] = useState([]);
+  const [doctors,setDoctor] = useState([]);
   useEffect(() => {
     Promise.all([
       axios.get(`http://localhost:5000/api/hospitals/${id}`),

@@ -53,7 +53,7 @@ const ChatBox = () => {
     {
       open && (
         <div className="chatbox-panel">
-          <div className="chatbox-header">AI Hỗ Trợ Khám Bệnh</div>
+          <div className="chatbox-header">AI dự đoán chuyên khoa và hỗ trợ đặt lịch</div>
 
           <div className="chatbox-messages">
             {messages.map((msg, i) =>

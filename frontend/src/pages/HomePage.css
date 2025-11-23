@@ -64,12 +64,13 @@ h2 {
     border-radius: 50%;
     margin: 20px auto 10px auto;
     border: 3px solid #007bff;
-    object-fit: cover;
+    min-width: 120px;
+    min-height: 120px;
 }
 
 .card-content {
-    padding: 15px;
-    flex-grow: 1; /* Đảm bảo nội dung chiếm không gian còn lại */
+    padding: 50px;
+    flex-grow: 1; 
 }
 
 /* --- Thiết kế cho Card Bác sĩ --- */
@@ -88,6 +89,8 @@ h2 {
     font-size: 1.2rem;
     color: #007bff;
     margin-top: 5px;
+    min-height: 2.8rem;
+    overflow: hidden;
 }
 
 .specialization-name {

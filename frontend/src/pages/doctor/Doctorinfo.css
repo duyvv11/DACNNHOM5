@@ -1,0 +1,89 @@
+/* Container chính chứa tiêu đề và card */
+.doctor-info-container {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f9f9f9; /* Nền nhẹ để phân biệt */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-info-container h3 {
+    text-align: center;
+    color: #007bff; /* Màu chủ đạo */
+    margin-bottom: 20px;
+}
+
+/* Khung Card chứa thông tin */
+.doctor-info-card {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 15px; /* Khoảng cách giữa các mục */
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+/* Định dạng từng mục thông tin */
+.info-item {
+    padding: 8px 0;
+    /* Mỗi mục chiếm khoảng 50% chiều rộng trừ khoảng cách gap */
+    flex: 1 1 calc(50% - 15px); 
+    display: flex;
+    justify-content: space-between; /* Đẩy label và value ra hai đầu */
+    align-items: center;
+    border-bottom: 1px dotted #ccc;
+}
+
+/* Bỏ border-bottom cho các item cuối cùng (hoặc item ảnh) */
+.doctor-info-card > .info-item:nth-last-child(1),
+.doctor-info-card > .info-item:nth-last-child(2) {
+    border-bottom: none;
+}
+
+.info-item .label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 15px;
+    text-align: left;
+    white-space: nowrap; /* Ngăn label bị xuống dòng */
+}
+
+.info-item .value {
+    color: #000;
+    text-align: right;
+    word-break: break-word; /* Cho phép nội dung dài ngắt dòng */
+}
+
+/* Định dạng hình ảnh đại diện */
+.info-item img {
+    max-width: 150px; /* Kích thước tối đa của ảnh */
+    height: auto;
+    border-radius: 50%; /* Làm ảnh tròn */
+    border: 3px solid #007bff; /* Viền ảnh nổi bật */
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Đảm bảo mục chứa ảnh chiếm toàn bộ chiều rộng */
+.doctor-info-card > .info-item:last-child {
+    flex: 1 1 100%;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* Media Query: Chuyển sang bố cục 1 cột trên màn hình nhỏ */
+@media (max-width: 768px) {
+    .info-item {
+        flex: 1 1 100%; /* Chiếm toàn bộ chiều rộng */
+        display: block; /* Chuyển sang stack label và value */
+    }
+    .info-item .label {
+        display: block;
+        margin-bottom: 3px;
+    }
+    .info-item .value {
+        text-align: left; /* Căn trái cho giá trị trên mobile */
+    }
+}

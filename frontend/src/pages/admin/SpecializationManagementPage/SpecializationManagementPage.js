@@ -6,7 +6,7 @@ import { AdminDataContext } from "../Context/AdminDataContext";
 const SpecializationManagementPage = () => {
   const { specializations, setSpecializations } = useContext(AdminDataContext);
 
-  // Cập nhật chuyên khoa
+  // cập nhật
   const handleUpdate = async (id, dataUpdate) => {
     try {
       const res = await fetch(`http://localhost:5000/api/specializations/${id}`, {
@@ -28,7 +28,7 @@ const SpecializationManagementPage = () => {
     }
   };
 
-  // Xóa chuyên khoa
+  // xóa 
   const handleDelete = async (id) => {
     try {
       const res = await fetch(`http://localhost:5000/api/specializations/${id}`, {
@@ -45,10 +45,10 @@ const SpecializationManagementPage = () => {
 
   };
 
-  // Thêm chuyên khoa mới
+  // them moi
   const handleAdd = async (newSpecialization) => {
     try {
-      const res = await fetch("[http://localhost:5000/api/specializations](http://localhost:5000/api/specializations)", {
+      const res = await fetch("http://localhost:5000/api/specializations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newSpecialization)

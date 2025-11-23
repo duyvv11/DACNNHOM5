@@ -6,7 +6,6 @@ console.log("OPENAI KEY:", process.env.OPENAI_KEY); // kiểm tra key
 const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
 
 exports.diagnose = async (req, res) => {
-  console.log("rq send");
   try {
     const { message } = req.body;
 
@@ -25,7 +24,7 @@ exports.diagnose = async (req, res) => {
         }
 
         - Luôn chọn DUY NHẤT 1 chuyên khoa từ danh sách:
-        [Khoa Nhi, Khoa Tổng Quát, Khoa Tim Mạch, Khoa Thần Kinh, Da Liễu, Tai Mũi Họng, Răng Hàm Mặt, Cơ Xương Khớp, Tiêu Hóa].
+        [Khoa Nhi, Khoa Nội Tổng Quát, Khoa Tim Mạch, Khoa Thần Kinh, Da Liễu, Tai Mũi Họng, Răng Hàm Mặt, Cơ Xương Khớp, Tiêu Hóa, Ngoại Tổng Quát].
 
         - Không được trả thêm chữ hoặc câu bên ngoài JSON.
       `

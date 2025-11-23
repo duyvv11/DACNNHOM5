@@ -1,9 +1,8 @@
 import { useState , useEffect } from "react";
 import DoctorList from "../components/DoctorList"
 import axios from "axios";
-
 const DoctorListPage = ()=>{
-  const [doctors,setDoctors] = useState("")
+  const [doctors,setDoctors] = useState([])
   useEffect(() => {
     const fetchdatadoctors=async ()=>{
       try {

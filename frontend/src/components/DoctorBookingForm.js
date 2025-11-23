@@ -19,12 +19,16 @@ function DoctorBookingForm({ doctor }) {
   }, [doctor.id]);
 
   const handleBooking = async () => {
+    if(!patientId ){
+      toast("Bạn phải đăng nhập");
+      return;
+    }
     if (!selectedDate || !selectedSlot) {
       toast("Vui lòng chọn ngày và giờ");
       return;
     }
 
-    await axios.post("http://localhost:5000/api/appointments", {
+    const bookok =await axios.post("http://localhost:5000/api/appointments", {
       doctorId: doctor.id,
       date: selectedDate.date,
       startTime: selectedSlot.startTime,
@@ -32,8 +36,8 @@ function DoctorBookingForm({ doctor }) {
       scheduleId: selectedSlot.scheduleId,
       patientId
     });
-
-    toast("Đặt lịch thành công!");
+    toast("Đặt Lịch Thành Công");
+    
     setSelectedDate(null);
     setSelectedSlot(null);
   };

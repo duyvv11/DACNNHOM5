@@ -56,7 +56,6 @@ exports.getDoctorById = async (req, res) => {
 exports.getDoctorbySpecializationById = async (req,res) =>{
   try {
     const id = req.params.id;
-    console.log("get bac si theo chuyen khoa",id);
     const doctor = await Doctor.findAll({
       where: { specializationId:id },
       attributes: ['userid','experience_years', 'title', 'workplace', 'work_hours', 'profile_image'],
@@ -85,10 +84,8 @@ exports.getDoctorbySpecializationById = async (req,res) =>{
 };
 // lấy bác sic theo chuyen khoa bang name
 exports.getDoctorbySpecialization = async (req, res) => {
-  console.log("nhận rq")
   try {
     let specialtyName = req.query.specialty;
-    console.log(specialtyName);
 
     if (!specialtyName) {
       return res.status(400).json({ message: "Tên chuyên khoa không được để trống" });

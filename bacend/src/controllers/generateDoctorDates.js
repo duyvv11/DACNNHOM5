@@ -1,34 +1,41 @@
 const moment = require("moment");
 
-const DAYS_MAP = {
-  Sunday: 0,
-  Monday: 1,
-  Tuesday: 2,
-  Wednesday: 3,
-  Thursday: 4,
-  Friday: 5,
-  Saturday: 6,
-};
-
-module.exports = function generateDoctorDates(doctorSchedules, days = 30) {
+module.exports = function generateDoctorDates(doctorSchedules, days = 30, bookedAppointments = []) {
   const result = [];
 
   for (let i = 0; i < days; i++) {
     const date = moment().add(i, "days");
-    const dayName = date.format("dddd"); // Monday, Tuesday, ...
+    const dayName = date.format("dddd"); 
+    const dateString = date.format("YYYY-MM-DD");
+    const dailySchedules = doctorSchedules.filter(s => s.dayOfWeek === dayName);
 
-    // tìm xem lịch DB có khớp thứ không
-    const slots = doctorSchedules.filter(s => s.dayOfWeek === dayName);
+    //Tạo ra tất cả các slots và đánh dấu trạng thái đặt lịch
+    let slotsWithBookingStatus = dailySchedules.map(schedule => {
 
-    if (slots.length > 0) {
+      const isBooked = bookedAppointments.some(appointment => {
+        const scheduleMatch = appointment.scheduleId === schedule.id;
+        const appointmentDateString = moment(appointment.startDateTime).format("YYYY-MM-DD");
+        const dateMatch = appointmentDateString === dateString;
+
+        return scheduleMatch && dateMatch;
+      });
+
+      return {
+        startTime: schedule.startTime,
+        endTime: schedule.endTime,
+        scheduleId: schedule.id,
+        isBooked: isBooked
+      };
+    });
+
+    // bỏ slot đã được đặt
+    const availableSlots = slotsWithBookingStatus.filter(slot => !slot.isBooked);
+    // ngày giờ còn trống
+    if (availableSlots.length > 0) {
       result.push({
-        date: date.format("YYYY-MM-DD"),
+        date: dateString,
         dayOfWeek: dayName,
-        slots: slots.map(s => ({
-          startTime: s.startTime,
-          endTime: s.endTime,
-          scheduleId: s.id
-        }))
+        slots: availableSlots
       });
     }
   }

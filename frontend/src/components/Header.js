@@ -52,14 +52,8 @@ function Header() {
         <Link to="/">MEDP</Link>
       </div>
 
-      <div className="section-Search">
-        <form className="Form-Seach">
-          <input type="text" placeholder="Tìm kiếm..."></input>
-        </form>
-        <button type="submit">Tìm Kiếm</button>
-      </div>
-
       <nav>
+        <Link to="/news">Tin Tức</Link>
         <Link to="/doctors">Bác sĩ</Link>
         <Link to="/specializations">Chuyên khoa</Link>
         <Link to="/hospitals">Phòng Khám/Bệnh Viện</Link>

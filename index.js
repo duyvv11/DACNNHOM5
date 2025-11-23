@@ -7,7 +7,6 @@ const doctorRoutes = require('./bacend/src/routers/doctorRoutes');
 const appointmentRoutes = require('./bacend/src/routers/appointmentRoutes');
 const hospitalRoutes = require('./bacend/src/routers/hospitalRoutes');
 const specializationRoutes = require('./bacend/src/routers/specializationRoutes');
-const verificationRoutes = require('./bacend/src/routers/verificationRoutes');
 const newsRoutes = require('./bacend/src/routers/newsRoutes');
 const doctorScheduleRoutes = require('./bacend/src/routers/doctorSchedule');
 const aiRoutes = require('./bacend/src/routers/aiRoutes')
@@ -34,7 +33,6 @@ app.use('/api/doctors', doctorRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/hospitals', hospitalRoutes);
 app.use('/api/specializations', specializationRoutes);
-app.use('/api/verifications', verificationRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/doctor-schedules', doctorScheduleRoutes);
 app.use('/api/ai', aiRoutes);

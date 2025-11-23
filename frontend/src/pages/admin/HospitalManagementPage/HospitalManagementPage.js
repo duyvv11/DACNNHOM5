@@ -33,7 +33,8 @@ const HospitalManagementPage =()=>{
         body: JSON.stringify(newHospital)
       });
       if (addHospital.ok) {
-
+        const addedHospital = await addHospital.json(); 
+        setHospitals(prev => [...prev, addedHospital]); 
         toast("thêm bệnh viện thành công");
 
       }

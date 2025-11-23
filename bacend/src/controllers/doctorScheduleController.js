@@ -1,5 +1,7 @@
-const { DoctorSchedule, Doctor } = require('../models');
+const { DoctorSchedule, Doctor ,Appointment} = require('../models');
+const { Op } = require('sequelize');
 const generateDoctorDates = require("./generateDoctorDates");
+const moment = require("moment");
 // Lấy tất cả lịch khám
 exports.getAllSchedules = async (req, res) => {
   try {
@@ -78,16 +80,55 @@ exports.deleteSchedule = async (req, res) => {
   }
 };
 
-exports.getScheduleDate =async (req, res) => {
+
+// //
+// exports.getScheduleDate =async (req, res) => {
+//   try {
+//     const doctorId = req.params.id;
+
+//     const schedules = await DoctorSchedule.findAll({
+//       where: { doctorId },
+//       raw: true,
+//     });
+
+//     const availableDays = generateDoctorDates(schedules, 30);
+
+//     res.json({ doctorId, availableDays });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Lỗi server" });
+//   }
+// };
+exports.getScheduleDate = async (req, res) => {
   try {
     const doctorId = req.params.id;
 
+    // ren 30 ngay
+    const today = moment().startOf('day').toDate(); 
+    const futureDate = moment().add(30, 'days').endOf('day').toDate(); 
+
+    // tải tất cả doctorschedules
     const schedules = await DoctorSchedule.findAll({
       where: { doctorId },
       raw: true,
     });
 
-    const availableDays = generateDoctorDates(schedules, 30);
+    // tải cuộc hẹn không bị hủy vì ch hủy để hiện lại cho ng khác
+    const bookedAppointments = await Appointment.findAll({
+      where: {
+        doctorId,
+        status: {
+          [Op.ne]: 'CANCELLED' 
+        },
+        startDateTime: {
+          [Op.between]: [today, futureDate]
+        }
+      },
+      attributes: ['id', 'scheduleId', 'startDateTime'], 
+      raw: true,
+    });
+
+    const availableDays = generateDoctorDates(schedules, 30, bookedAppointments);
 
     res.json({ doctorId, availableDays });
   } catch (err) {
