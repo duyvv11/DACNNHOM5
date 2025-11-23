@@ -42,12 +42,30 @@ exports.getSchedulesByDoctor = async (req, res) => {
   }
 };
 
-// Tạo lịch mới
 exports.createSchedule = async (req, res) => {
   try {
-    const { doctorId, dayOfWeek, startTime, endTime, isAvailable } = req.body;
-    const newSchedule = await DoctorSchedule.create({ doctorId, dayOfWeek, startTime, endTime, isAvailable });
+    const { userId, dayOfWeek, startTime, endTime, isAvailable } = req.body;
+
+    // 1. Tìm doctor theo userId (vì login dùng userId)
+    const doctor = await Doctor.findOne({
+      where: { userId: userId }
+    });
+
+    if (!doctor) {
+      return res.status(404).json({ error: "Không tìm thấy bác sĩ với userId này" });
+    }
+
+    // 2. Tạo lịch đúng với doctorId thật
+    const newSchedule = await DoctorSchedule.create({
+      doctorId: doctor.id,  // dùng ID bác sĩ thật
+      dayOfWeek,
+      startTime,
+      endTime,
+      isAvailable
+    });
+
     res.status(201).json(newSchedule);
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

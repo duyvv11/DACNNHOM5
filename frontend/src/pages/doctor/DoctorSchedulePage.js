@@ -1,47 +1,89 @@
 
-
-import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import ScheduleForm from '../../components/doctor/ScheduleForm';
+import { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import ScheduleForm from "../../components/doctor/ScheduleForm";
 
 const DoctorSchedulePage = () => {
-  const doctorId = localStorage.getItem("id");
+  const userId = localStorage.getItem("id"); 
   const [currentSchedule, setCurrentSchedule] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-
-  //lấy lịch làm việc hiện tại
   const fetchSchedule = useCallback(async () => {
-    if (!doctorId) {
+    if (!userId) {
       setIsLoading(false);
-      toast.error("Không tìm thấy ID bác sĩ.");
+      toast.error("Không tìm thấy ID người dùng.");
       return;
     }
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/doctor-schedules/schedulebydoctor/${doctorId}`);
+      const response = await axios.get(
+        `http://localhost:5000/api/doctor-schedules/schedulebydoctor/${userId}`
+      );
+
       const fetchedSchedule = response.data;
-      setCurrentSchedule(fetchedSchedule);
+
+      setCurrentSchedule(
+        fetchedSchedule.map((s) => ({
+          ...s,
+          id: s.id || s._id, // chuẩn hoá lại id
+        }))
+      );
     } catch (error) {
-      console.error("Lỗi khi tải lịch trình:", error);
-      toast.info("Chưa có lịch trình nào được thiết lập.");
+      console.error("Lỗi khi tải lịch:", error);
+      toast.info("Chưa có lịch nào được thiết lập.");
     } finally {
       setIsLoading(false);
     }
-  }, [doctorId]);
+  }, [userId]);
 
-  // lưu lịch làm việc
-  const handleSaveSchedule = async (scheduleData) => {
+  const handleUpdateSlot = async (slot) => {
+    if (!slot.id) return;
+
     try {
-      await axios.post(`http://localhost:5000/api/doctors/schedule/${doctorId}`, {
-        schedules: scheduleData
+      await axios.put(`http://localhost:5000/api/doctor-schedules/${slot.id}`, {
+        ...slot,
       });
-      toast.success("Cập nhật lịch làm việc thành công!");
-      fetchSchedule(); // Tải lại lịch trình sau khi lưu
+
+      toast.success("Cập nhật lịch thành công!");
+      fetchSchedule();
     } catch (error) {
-      toast.error("Không thể lưu lịch trình. Vui lòng thử lại.");
-      console.error("Lỗi lưu lịch trình:", error);
+      toast.error("Cập nhật thất bại.");
+      console.error("Lỗi cập nhật:", error);
+    }
+  };
+
+  const handleCreateSlot = async (slot) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/doctor-schedules/`,
+        {
+          userId, // bắt buộc
+          ...slot,
+        }
+      );
+
+      toast.success("Thêm lịch thành công!");
+      fetchSchedule();
+
+      return response.data;
+    } catch (error) {
+      toast.error("Thêm lịch thất bại.");
+      console.error("Lỗi tạo mới:", error);
+    }
+  };
+
+  const handleDeleteSlot = async (scheduleId) => {
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/doctor-schedules/${scheduleId}`
+      );
+
+      toast.success("Xóa lịch thành công!");
+      fetchSchedule();
+    } catch (error) {
+      toast.error("Xóa thất bại.");
+      console.error("Lỗi xóa:", error);
     }
   };
 
@@ -56,10 +98,15 @@ const DoctorSchedulePage = () => {
   return (
     <div className="schedule-page-container">
       <h3>Thiết Lập Lịch Làm Việc</h3>
+
       <ScheduleForm
-        doctorId={doctorId}
         currentSchedule={currentSchedule}
-        onSave={handleSaveSchedule}
+        onUpdate={handleUpdateSlot}
+        onCreate={handleCreateSlot}
+        onDelete={handleDeleteSlot}
+        onSave={() => {
+          toast.info("Bạn hãy lưu từng dòng bằng nút riêng nhé.");
+        }}
       />
     </div>
   );

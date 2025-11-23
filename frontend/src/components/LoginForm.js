@@ -81,9 +81,9 @@ const LoginForm = () => {
           Đăng Nhập
         </button>
 
-        <p className="forgot-password">
+        {/* <p className="forgot-password">
           Quên mật khẩu? <Link to="/reset-password">Đặt lại tại đây</Link>
-        </p>
+        </p> */}
         <p className="register-link">
           Bạn chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
         </p>
