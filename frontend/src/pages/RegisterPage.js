@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './LoginPage.css';
+import { toast } from 'react-toastify';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -12,6 +13,10 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,13 +29,21 @@ function RegisterPage() {
 
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/register', {
+      const response = await axios.post('http://localhost:5000/api/users/register', {
         name,
         email,
-        password
+        password,
+        age, 
+        gender, 
+        phone,
+        address 
       });
-
-      navigate('/login', { state: { message: 'Đăng ký thành công! Vui lòng đăng nhập.' } });
+      if(response.status ===201 || response.status ===200){
+        toast("Đăng ký thành công chuyển sang trang đăng nhập")
+      }
+      setTimeout(()=>{
+        navigate("/login");
+      },2000)
     } catch (err) {
       setError(err.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.');
     } finally {
@@ -39,7 +52,7 @@ function RegisterPage() {
   };
 
   return (
-    <div className="Login-Section">  {/* Dùng class từ CSS */}
+    <div className="Login-Section"> 
       <h2>Đăng Ký Tài Khoản</h2>
 
       {error && (
@@ -57,6 +70,48 @@ function RegisterPage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Nhập tên của bạn"
+          required
+        />
+        <label htmlFor="age">Tuổi</label>
+        <input
+          type="number"
+          id="age"
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+          placeholder="Nhập tuổi của bạn"
+          min="1" // Giới hạn tuổi tối thiểu
+          required
+        />
+
+        <label htmlFor="gender">Giới tính</label>
+        <select className="select-gt"
+          id="gender"
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+          required
+        >
+          <option value="">Chọn giới tính</option>
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+        </select>
+
+        <label htmlFor="phone">Số điện thoại</label>
+        <input
+          type="tel" 
+          id="phone"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="Nhập số điện thoại"
+          required
+        />
+
+        <label htmlFor="address">Địa chỉ</label>
+        <input
+          type="text"
+          id="address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="Nhập địa chỉ của bạn"
           required
         />
 

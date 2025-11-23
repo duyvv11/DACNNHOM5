@@ -19,7 +19,6 @@ const combineDateTime = (date, time) => {
 
 // tạo lịch hẹn
 exports.createAppointment = async (req, res) => {
-  console.log("gọi api đặt lịch");
   try {
     const { date, startTime, endTime, patientId, doctorId, scheduleId } = req.body;
     console.log(date, startTime, endTime, patientId, doctorId, scheduleId);
@@ -35,18 +34,6 @@ exports.createAppointment = async (req, res) => {
 
     if (!startDateTime || !endDateTime || isNaN(startDateTime)) {
       return res.status(400).json({ message: 'Ngày hoặc giờ không hợp lệ.' });
-    }
-
-    // check trùng lịch
-    const existing = await Appointment.findOne({
-      where: {
-        patientId,
-        startDateTime: startDateTime
-      }
-    });
-
-    if (existing && existing.status !== "CANCELLED") {
-      return res.status(409).json("bị trùng lịch");
     }
 
     const appt = await Appointment.create({
