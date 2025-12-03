@@ -54,7 +54,7 @@ exports.deleteSpecialization = async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 };
 
-// Thay đổi logic để tìm specializationId từ tên chuyên khoa
+// tím bác sĩ dựa vào tên chuyên khoa
 exports.getDoctorbySpecialization = async (req, res) => {
   try {
     // Lấy tên chuyên khoa từ query string (ví dụ: ?specialty=Khoa%20nhi)
@@ -64,18 +64,14 @@ exports.getDoctorbySpecialization = async (req, res) => {
       return res.status(400).json({ message: 'Vui lòng cung cấp tên chuyên khoa.' });
     }
 
-    // --- BƯỚC QUAN TRỌNG: TÌM ID DỰA TRÊN TÊN CHUYÊN KHOA ---
     const specialization = await Specialization.findOne({
       where: {
-        // Sử dụng toán tử iLike (PostgreSQL) hoặc Collate (MySQL) cho tìm kiếm không phân biệt chữ hoa/thường 
-        // hoặc đơn giản là tìm kiếm chính xác (tùy vào cấu hình DB của bạn)
         name: specialtyName
       },
-      attributes: ['id'] // Chỉ cần lấy ID
+      attributes: ['id'] 
     });
 
     if (!specialization) {
-      // Trường hợp AI trả về tên không khớp với database
       return res.status(404).json({ message: `Không tìm thấy chuyên khoa: ${specialtyName}` });
     }
 
@@ -83,7 +79,6 @@ exports.getDoctorbySpecialization = async (req, res) => {
     const specializationId = specialization.id;
     console.log("Tìm bác sĩ theo ID chuyên khoa:", specializationId);
 
-    // --- BƯỚC 2: TRUY VẤN DANH SÁCH BÁC SĨ BẰNG ID ---
     const doctor = await Doctor.findAll({
       where: { specializationId: specializationId }, // Sử dụng ID đã tìm được
       attributes: ['userId', 'experience_years', 'title', 'workplace', 'work_hours', 'profile_image'],

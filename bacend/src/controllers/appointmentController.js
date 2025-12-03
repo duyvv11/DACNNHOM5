@@ -4,8 +4,6 @@ const {Appointment, User, Doctor,Hospital } = require('../models');
 const combineDateTime = (date, time) => {
   try {
     if (!date || !time) return null;
-
-    // nếu time đã có giây giữ nguyên
     const cleanTime = time.length === 5 ? `${time}:00` : time;
 
     const dateTimeString = `${date}T${cleanTime}+07:00`;
