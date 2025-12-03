@@ -105,7 +105,7 @@ const DoctorSchedulePage = () => {
         onCreate={handleCreateSlot}
         onDelete={handleDeleteSlot}
         onSave={() => {
-          toast.info("Bạn hãy lưu từng dòng bằng nút riêng nhé.");
+          toast.info("Bạn hãy lưu từng dòng bằng nút riêng ");
         }}
       />
     </div>

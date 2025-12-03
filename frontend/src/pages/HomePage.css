@@ -28,12 +28,10 @@ font-size: 0.8rem;
     gap: 20px;
 }
 
-/* Bố cục cho bác sĩ có thể hẹp hơn nếu cần */
 .doctor-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
-/* --- Thiết kế Thẻ (Card) --- */
 .card {
     display: flex;
     flex-direction: column;
@@ -41,13 +39,12 @@ font-size: 0.8rem;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     overflow: hidden;
-    text-decoration: none; /* Loại bỏ gạch chân của Link */
+    text-decoration: none;
     color: #333;
     transition: transform 0.3s, box-shadow 0.3s;
-    min-height: 100%; /* Giúp các thẻ trong lưới có chiều cao bằng nhau */
+    /* min-height: 100%;  BỎ DÒNG NÀY */
 }
 
-/* Hiệu ứng nhấc lên khi hover */
 .hover-lift:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
@@ -101,7 +98,6 @@ font-size: 0.8rem;
     font-size: 0.95rem;
 }
 
-/* --- Thiết kế nút --- */
 .button {
     display: inline-block;
     padding: 10px 15px;

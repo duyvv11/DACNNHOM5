@@ -11,7 +11,7 @@ export default function Sidebar() {
       <h2 className="logo">ADMIN</h2>
 
       <nav className="nav">
-        <NavLink to="/admin" end className="link">
+        <NavLink to="/admin/dashboard" end className="link">
           Dashboard
         </NavLink>
         <NavLink to="/admin/users" className="link">

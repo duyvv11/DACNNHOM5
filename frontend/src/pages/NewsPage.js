@@ -6,20 +6,20 @@ const NewsPage = () => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/news/");
-        const data = await response.json();
-        // chuẩn hóa về mảng
-        setNews(Array.isArray(data) ? data : [data]);
-        setLoading(false);
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu:", error);
-        setLoading(false);
-      }
-    };
+  const fetchNews = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/news/");
+      const data = await response.json();
+      // chuẩn hóa về mảng
+      setNews(Array.isArray(data) ? data : [data]);
+      setLoading(false);
+    } catch (error) {
+      console.error("Lỗi khi lấy dữ liệu:", error);
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchNews();
   }, []);
 

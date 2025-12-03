@@ -46,7 +46,6 @@ exports.createSchedule = async (req, res) => {
   try {
     const { userId, dayOfWeek, startTime, endTime, isAvailable } = req.body;
 
-    // 1. Tìm doctor theo userId (vì login dùng userId)
     const doctor = await Doctor.findOne({
       where: { userId: userId }
     });
@@ -54,10 +53,8 @@ exports.createSchedule = async (req, res) => {
     if (!doctor) {
       return res.status(404).json({ error: "Không tìm thấy bác sĩ với userId này" });
     }
-
-    // 2. Tạo lịch đúng với doctorId thật
     const newSchedule = await DoctorSchedule.create({
-      doctorId: doctor.id,  // dùng ID bác sĩ thật
+      doctorId: doctor.id,  
       dayOfWeek,
       startTime,
       endTime,
@@ -117,6 +114,8 @@ exports.deleteSchedule = async (req, res) => {
 //     res.status(500).json({ error: "Lỗi server" });
 //   }
 // };
+
+// lấy tất cả lịch hẹn theo bác sĩ
 exports.getScheduleDate = async (req, res) => {
   try {
     const doctorId = req.params.id;

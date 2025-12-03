@@ -1,0 +1,25 @@
+.DashBoard-Container{
+  display: flex;
+  justify-content: space-around;
+
+}
+.itemdashboard{
+  border: 1px solid black;
+  padding: 2em;
+  min-width: 200px;
+}
+.Doctor-Count-Cart{
+  background-color: rgb(255, 186, 186);
+}
+.Hospital-Count-Cart{
+  background-color: rgb(117, 172, 255);
+}
+.Specialization-Count-Cart{
+  background-color: rgb(255, 255, 196);
+}
+.User-Count-Cart{
+  background-color: rgba(128, 255, 128, 0.534);
+}
+.Appointment-Count-Cart{
+  background-color: rgb(213, 151, 255);
+}

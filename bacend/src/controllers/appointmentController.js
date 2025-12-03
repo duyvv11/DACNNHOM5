@@ -21,7 +21,7 @@ const combineDateTime = (date, time) => {
 exports.createAppointment = async (req, res) => {
   try {
     const { date, startTime, endTime, patientId, doctorId, scheduleId } = req.body;
-    console.log(date, startTime, endTime, patientId, doctorId, scheduleId);
+    // console.log(date, startTime, endTime, patientId, doctorId, scheduleId);
 
     if (!date || !startTime || !endTime || !patientId || !doctorId || !scheduleId) {
       return res.status(400).json({ message: 'Thiếu thông tin bắt buộc.' });

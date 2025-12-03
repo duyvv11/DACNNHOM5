@@ -29,6 +29,7 @@ import NewsManagementPage from './pages/admin/NewsManagementPage/NewsManagementP
 
 // chat box
 import ChatBox from './components/ChatBox/ChatBox';
+import DashBoardPage from './pages/DashBoard/DashBoardPage';
 function App() {
   return (
     <BrowserRouter>
@@ -67,6 +68,7 @@ function App() {
               <Route path="hospitals" element={<HospitalManagementPage/>}/>
               <Route path="specializations" element={<SpecialManagementPage/>}/>
               <Route path="news" element={<NewsManagementPage/>}/>
+              <Route path ="dashboard" element={<DashBoardPage/>}/>
             </Route>
           </Route>
         </Routes>

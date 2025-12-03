@@ -11,11 +11,14 @@ function DoctorBookingForm({ doctor }) {
   console.log("doctor",doctor);
 
   // load lịch 30 ngày từ API
-  useEffect(() => {
+  const loadSchedule =()=>{
     axios
       .get(`http://localhost:5000/api/doctor-schedules/${doctor.id}/available-days`)
       .then(res => setAvailableDays(res.data.availableDays))
       .catch(err => console.log(err));
+  }
+  useEffect(() => {
+    loadSchedule()
   }, [doctor.id]);
 
   const handleBooking = async () => {
@@ -37,7 +40,7 @@ function DoctorBookingForm({ doctor }) {
       patientId
     });
     toast("Đặt Lịch Thành Công");
-    
+    loadSchedule();
     setSelectedDate(null);
     setSelectedSlot(null);
   };
@@ -45,7 +48,6 @@ function DoctorBookingForm({ doctor }) {
   return (
     <div className="booking-container">
 
-      {/* LEFT: Doctor Info */}
       <div className="doctor-left">
         <img src={doctor.profile_image} alt="" className="doctor-img" />
         <h2>{doctor.title} {doctor.User?.name}</h2>
@@ -55,7 +57,7 @@ function DoctorBookingForm({ doctor }) {
         <p>Nơi làm việc: {doctor.Hospital?.name}</p>
       </div>
 
-      {/* RIGHT: Booking Form */}
+
       <div className="booking-right">
         <h3>Chọn ngày khám</h3>
 

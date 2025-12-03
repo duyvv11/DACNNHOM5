@@ -36,7 +36,6 @@ function DoctorList({ doctors }) {
 
             return (
               <div key={id} className="card doctor-card hover-lift">
-                <Link to={`/doctor/${id}`} className="doctor-link">
                   <img
                     src={profile_image}
                     alt={User?.name}
@@ -51,8 +50,6 @@ function DoctorList({ doctors }) {
                       Bệnh viện: <strong>{Hospital?.name || "Đang cập nhật"}</strong>
                     </p>
                   </div>
-                </Link>
-
                 <Link to={`/booking/${userid}`} className="button primary-button">
                   Đặt lịch
                 </Link>

@@ -10,6 +10,7 @@ const specializationRoutes = require('./bacend/src/routers/specializationRoutes'
 const newsRoutes = require('./bacend/src/routers/newsRoutes');
 const doctorScheduleRoutes = require('./bacend/src/routers/doctorSchedule');
 const aiRoutes = require('./bacend/src/routers/aiRoutes')
+const dashboardRoutes = require('./bacend/src/routers/dashboardRoutes')
 // const authRoutes = require('./bacend/src/routers/auth')
 
 
@@ -36,6 +37,7 @@ app.use('/api/specializations', specializationRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/doctor-schedules', doctorScheduleRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/dashboard',dashboardRoutes);
 // app.use('/api',authRoutes);
 const port = process.env.PORT;
 app.listen(port, () => {
